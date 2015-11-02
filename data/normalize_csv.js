@@ -6,7 +6,8 @@ var path = require('path');
 var _ = require('underscore');
 var csv = require('csv');
 var fs = require('fs');
-var cbb = require('../lib/country-boundingboxes.json');
+//var cbb = require('../lib/country-boundingboxes.json');
+var execSync = require('child_process').execSync;
 
 var firstHeader = process.argv[2];
 
@@ -32,11 +33,15 @@ parser.on('finish', function(){
 
   for ( var i = 0 ; i < output.length ; i++ ) {
     output[i].bounds = ""
-    var c = cbb.filter(function(country) {
-      if ( country.country == output[i].name ) return true;
-    })[0];
-    if ( c ) {
-      output[i].bounds = c.longmin+','+c.latmin+','+c.longmax+','+c.latmax;
+    output[i].subunits = ""
+    var c = JSON.parse(execSync('python3 '+__dirname+'/bounds.py '+output[i].alpha2))
+    //console.log('python3 '+__dirname+'/bounds.py '+output[0].alpha2, c)
+    if ( c.subunits.length ) {
+      if ( c.subunits.length > 1 ) {
+        output[i].subunits = c.subunits.join(',');
+        output[i].bounds = JSON.stringify(c.bounds).replace(/\],\[/g, ';').replace(/(^\[\[?|\]?\]$)/g, '');
+      }
+      else output[i].bounds = c.bounds[0].join(',');
     }
   }
 
