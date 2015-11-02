@@ -1,0 +1,22 @@
+{
+  "name": "country-data-bounds",
+  "version": "0.1.3",
+  "repository": "https://github.com/fentas/country-data-bounds",
+  "license": "AGPLv3",
+  "dependencies": {
+    "csvtojson": "^0.4.3",
+    "gulp": "^3.8.11",
+    "gulp-util": "^3.0.5",
+    "request": "^2.64.0",
+    "canonical-json": "~0.0.4",
+    "csv": "~0.4"
+  },
+  "author": {
+    "name": "Jan Guth",
+    "email": "jan.guth@gmail.com",
+    "url": "jan.guth.so"
+  },
+  "devDependencies": {
+  },
+  "private": true
+}
